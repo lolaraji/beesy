@@ -90,13 +90,15 @@ this function appends content to an existing file asynchronously.
 edit('/path/to/directory', 'existingfile.txt', 'new content appended.');
 ```
 
-## `email(senderemailservice, senderemail, senderpassword, sendername, recipientemail, emailsubject, emailhtmllocation)`
+# `email(senderemail, senderpassword, sendername, recipientemail, emailsubject, emailhtmllocation);`
 
-this function sends an email using the provided email configuration.
+```javascript
+email("email@example.com", "examplepassword", "jane doe", "john doe", "subject line", path.join(__dirname, "/index.html"));
+```
+this function facilitates the sending of emails using the specified email configuration.
 
-### parameters
+## parameters
 
-- `senderemailservice`: the email service provider (e.g., 'gmail').
 - `senderemail`: the email address of the sender.
 - `senderpassword`: the password for the sender's email account.
 - `sendername`: the name of the sender.
@@ -104,24 +106,72 @@ this function sends an email using the provided email configuration.
 - `emailsubject`: the subject of the email.
 - `emailhtmllocation`: the file location of the html content for the email.
 
-### process
+## process
 
-1. the function creates a mail transporter using the specified `senderemailservice`, `senderemail`, and `senderpassword`.
-2. it constructs an email configuration object with the sender's information, recipient's information, subject, and html content.
-3. the function then sends the email using the created transporter.
-4. if the email is sent successfully, a success message is logged to the console along with the message id.
-5. if an error occurs during the email sending process, an error message is logged to the console.
+1. the function constructs an email configuration object based on the provided sender's information, recipient's information, and email content.
 
-### throws
+### email configuration
 
-- if an error occurs during the email sending process, an error is logged.
+#### known email servers (gmail, outlook, aol, yahoo, etc.)
 
+- `simpleserver(senderemailservice)`
+
+  ```javascript
+  simpleserver('outlook');
+  sendemail();
+  ```
 ### example
+``` javascript
+// declare the mail variable
+const mail = beesy.email(
+  "janedoe@outlook.com",
+  "password123",
+  "jane doe",
+  "johndoe@example.com",
+  "this is an email sent with beesy!",
+  path.join(__dirname, "/index.html")
+);
+// set custom server configuration
+mail.simpleserver('outlook');
 
-```javascript
-email('outlook', 'sender@outlook.com', 'password', 'sender name', 'recipient@gmail.com', 'subject', 'email_template.html');
+// send the email
+mail.sendemail();
 ```
 
+#### unknown email servers (personally hosted servers, personal domain servers, etc.)
+
+- `customserver(hostname, port, secure)`
+
+  ```javascript
+  customserver(smtp.myserver.com, 465, true);
+  ```
+
+### sending the email
+- `sendemail();`
+
+  ```javascript
+  sendemail();
+  ```
+
+### example
+``` javascript
+// declare the mail variable
+const mail = beesy.email(
+  "janedoe@example.com",
+  "password123",
+  "jane doe",
+  "johndoe@example.com",
+  "this is an email sent with beesy!",
+  path.join(__dirname, "/index.html")
+);
+// set custom server configuration
+mail.customserver('smtp.myserver.com', 465, true);
+
+// send the email
+mail.sendemail();
+```
+
+  
 #### fyi
 - it is heavily advised that you do not explicitly put your passwords onto any javascript files. instead, please utilize the [dot env](https://www.npmjs.com/package/dotenv) package.
 
