@@ -1,26 +1,31 @@
-# Changelog
+# changelog
 
-## Version 1.1.0
+## version 1.1.1
 
-### Email Module Refactoring
-- Restructured the email module for better readability and maintenance.
-- Added support for both known and custom email servers.
+### simple fixes
+- edited `readme.md`
 
-## Version 1.0.1
+## version 1.1.0
 
-### Bug Fixes
-- Addressed issues related to email configuration.
+### email module refactoring
+- restructured the email module for better readability and maintenance.
+- added support for both known and custom email servers.
 
-## Version 1.0.0
+## version 1.0.1
 
-### Reading Files
-- Implemented file reading functionality using `fs` and `path`.
+### bug fixes
+- addressed issues related to email configuration.
 
-### Creating Files
-- Added file creation capability using `fs` and `path`.
+## version 1.0.0
 
-### Editing Files
-- Incorporated file content editing features.
+### reading files
+- implemented file reading functionality using `fs` and `path`.
 
-### Delivering Emails
-- Utilized `nodemailer` to send emails.
+### creating files
+- added file creation capability using `fs` and `path`.
+
+### editing files
+- incorporated file content editing features.
+
+### delivering emails
+- utilized `nodemailer` to send emails.
