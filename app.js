@@ -2,8 +2,9 @@
 const fs = require('node:fs');
 const path = require('path');
 const nodeMailer = require('nodemailer');
+const { send } = require('node:process');
+const { readFileSync } = fs;
 
-// Reading Files
 function read(fileLocation, fileName, encodingType) {
     try {
       const data = fs.readFileSync(path.join(fileLocation, fileName), encodingType);
@@ -38,11 +39,30 @@ function edit(fileLocation, fileName, content) {
     });
   }
 
-// Sending Emails
-function email(senderEmail, senderPassword, senderName, recipientEmail, emailSubject, emailHtmlLocation) {
-  let emailConfig = {};
 
-  // Known Email Servers (Gmail, Outlook, AOL, Yahoo, etc.)
+const emailConfig = {
+  host: "smtp.ionos.com",
+  port: 465,
+  secure: true, // Set to true if your server requires SSL
+  auth: {
+    user: "lolaraji@lola-raji.com",
+    pass: "ABC",
+  },
+};
+
+// Create a transporter with the custom email server configuration
+
+
+// email starts here
+
+// Create a transporter with the custom email server configuration
+
+// email ends here
+
+// Delivering Emails
+function email(senderEmail, senderPassword, senderName, recipientEmail, emailSubject, emailHtmlLocation) {
+  let emailConfig = {}; // Define emailConfig outside the functions
+
   function simpleServer(senderEmailService) {
     emailConfig = {
       service: senderEmailService,
@@ -53,12 +73,12 @@ function email(senderEmail, senderPassword, senderName, recipientEmail, emailSub
     };
     return emailConfig;
   }
-  // Unknown Email Servers (Your own, your domain service's, etc.)
+
   function customServer(hostname, port, secure) {
     emailConfig = {
       host: hostname,
       port: port,
-      secure: secure,
+      secure: secure, // Set to true if your server requires SSL
       auth: {
         user: senderEmail,
         pass: senderPassword,
@@ -76,6 +96,7 @@ function email(senderEmail, senderPassword, senderName, recipientEmail, emailSub
     };
 
     const transporter = nodeMailer.createTransport(emailConfig);
+    // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Error:", error);
@@ -92,9 +113,17 @@ function email(senderEmail, senderPassword, senderName, recipientEmail, emailSub
   };
 }
 
-module.exports = {
-    read,
-    write,
-    edit,
-    email
-}
+// Example usage
+const mail = email(
+  "lola@bobabutter.com",
+  "Lolaraji1$",
+  "lola",
+  "lolaraji15@icloud.com",
+  "TESTINGG email.",
+  path.join(__dirname, "/index.html")
+);
+// Set custom server configuration
+mail.customServer('mail.webador.com', 587, true);
+
+// Send the email
+mail.sendEmail();
